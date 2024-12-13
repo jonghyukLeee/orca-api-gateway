@@ -1,7 +1,3 @@
-# Kotlin specific
-*.kt~
-*.kts
-
 # Compiled class files
 *.class
 *.jar
