@@ -1,0 +1,38 @@
+server:
+  port: ${GATEWAY_PORT}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
+    register-with-eureka: true
+    fetch-registry: true
+
+spring:
+  application:
+    name: 'gateway'
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      default-filters:
+        - name: DedupeResponseHeader
+          args:
+            name: Access-Control-Allow-Origin
+            strategy: RETAIN_FIRST
+      routes:
+        - id: auth
+          uri: lb://auth
+          predicates:
+            - Path=/auth/**
+
+        - id: member
+          uri: lb://member
+          predicates:
+            - Path=/member/**
+
+        - id: match
+          uri: lb://match
+          predicates:
+            - Path=/match/**
