@@ -33,7 +33,7 @@ jobs:
           cp ./src/main/resources/*.yml ./scp/resources
 
       - name: Copy to EC2
-        run: scp -i ${{ secrets.PEM_KEY }} -r ./scp ec2-user@${{ secrets.EUREKA_HOST }}:/home/ec2-user/
+        run: scp -i ${{ secrets.PEM_KEY }} -r ./scp ec2-user@${{ secrets.GATEWAY_HOST }}:/home/ec2-user/
 
       - name: Connect and deploy
         run: ssh gateway "./deploy/deploy.sh; exit"
