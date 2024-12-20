@@ -25,6 +25,4 @@ jobs:
         run: ./gradlew clean build -x test
 
       - name: deploy
-        run: |
-          cd /home/ec2-user/orca/gateway/deploy
-          ./deploy.sh
+        run: /home/ec2-user/orca/gateway/deploy/tmp/deploy.sh
