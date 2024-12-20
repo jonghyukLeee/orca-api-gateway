@@ -32,4 +32,4 @@ jobs:
           else
             echo "Nothing currently running."
           fi
-          nohup java -jar ./build/libs/*plain.jar --spring.config.location=file:./src/main/resources/ > "../logs/$(date +"%Y%m%d%H%M").log" 2>&1 &
+          nohup java -jar $(ls ./build/libs/*.jar | grep -v "plain") --spring.config.location=file:./src/main/resources/ > "../logs/$(date +"%Y%m%d%H%M").log" 2>&1 &
