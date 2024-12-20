@@ -25,4 +25,11 @@ jobs:
         run: ./gradlew clean build -x test
 
       - name: deploy
-        run: nohup /home/ec2-user/orca/gateway/deploy/deploy.sh > deploy.log 2>&1 &
+        run: |
+          if [ -n "$PID" ]; then
+            echo "Stop current application (PID: $PID)."
+            kill -9 "$PID"
+          else
+            echo "Nothing currently running."
+          fi
+          nohup java -jar ./build/libs/*plain.jar --spring.config.location=file:./src/main/resources/ > "../logs/$(date +"%Y%m%d%H%M").log" 2>&1 &
