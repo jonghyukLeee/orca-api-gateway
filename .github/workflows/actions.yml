@@ -26,6 +26,7 @@ jobs:
 
       - name: deploy
         run: |
+          PID=$(lsof -t -i:8000)
           if [ -n "$PID" ]; then
             echo "Stop current application (PID: $PID)."
             kill -9 "$PID"
