@@ -2,6 +2,8 @@ FROM openjdk:17
 
 WORKDIR /app
 
+ENV DEPLOY_EUREKA=${DEPLOY_EUREKA}
+
 COPY build/libs/*.jar /app/app.jar
 COPY src/main/resources/ /app/resources/
 
