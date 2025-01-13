@@ -2,11 +2,8 @@ FROM openjdk:17
 
 WORKDIR /app
 
-ARG DEPLOY_EUREKA
-RUN echo "arg = $DEPLOY_EUREKA"
-RUN echo "arg test = ${DEPLOY_EUREKA}"
-
-ENV DEPLOY_EUREKA=$DEPLOY_EUREKA
+ARG EUREKA
+ENV EUREKA=$EUREKA
 
 COPY build/libs/*.jar /app/app.jar
 COPY src/main/resources/ /app/resources/

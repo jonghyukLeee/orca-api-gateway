@@ -32,7 +32,7 @@ jobs:
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
       - name: Build Docker image
-        run: docker build --build-arg DEPLOY_EUREKA=${{ secrets.KUBE_DEPLOY_EUREKA }} -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO_GATEWAY }}:latest .
+        run: docker build --build-arg EUREKA=${{ secrets.KUBE_SERVICE_EUREKA }} -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO_GATEWAY }}:latest .
 
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO_GATEWAY }}:latest
