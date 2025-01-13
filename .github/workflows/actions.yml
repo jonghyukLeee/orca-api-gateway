@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - chore/add-k8s # 지워야함
 
 jobs:
   build-and-deploy:
