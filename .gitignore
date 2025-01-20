@@ -33,5 +33,9 @@ bin/
 # macOS specific
 *.DS_Store
 
+# k8s
+deployment-*.yml
+service-*.yml
+
 # etc
 *.checksums.*
