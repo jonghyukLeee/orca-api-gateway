@@ -34,8 +34,7 @@ bin/
 *.DS_Store
 
 # k8s
-deployment-*.yml
-service-*.yml
+/k8s
 
 # etc
 *.checksums.*
