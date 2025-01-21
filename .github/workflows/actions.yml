@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - develop
 
 jobs:
   build-and-deploy:
@@ -30,13 +31,16 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
-      - name: Build Docker image
-        run: docker build --build-arg EUREKA=${{ secrets.KUBE_SERVICE_EUREKA }} -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO_GATEWAY }}:latest .
-
-      - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO_GATEWAY }}:latest
-
-      - name: Deploy
+      - name: Build Docker image & Deploy
         run: |
-          kubectl rollout restart deployment/${{secrets.KUBE_DEPLOY_GATEWAY}}
-          kubectl rollout status deployment/${{secrets.KUBE_DEPLOY_GATEWAY}}
+          if [[ $GITHUB_REF == 'refs/heads/develop' ]]; then
+            TAG="dev"
+          elif [[ $GITHUB_REF == 'refs/heads/main' ]]; then
+            TAG="prod"
+          fi
+          echo TAG = $TAG
+          
+          docker build --build-arg EUREKA=orca-eureka-$TAG -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO_GATEWAY }}:$TAG .
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO_GATEWAY }}:$TAG
+          kubectl rollout restart deployment/orca-gateway-$TAG
+          kubectl rollout status deployment/orca-gateway-$TAG
