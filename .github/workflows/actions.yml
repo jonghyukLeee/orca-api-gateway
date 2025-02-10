@@ -40,7 +40,7 @@ jobs:
           fi
           echo TAG = $TAG
           
-          docker build --build-arg EUREKA=orca-eureka-$TAG -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO_GATEWAY }}:$TAG .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO_GATEWAY }}:$TAG .
           docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO_GATEWAY }}:$TAG
-          kubectl rollout restart deployment/orca-gateway-$TAG
-          kubectl rollout status deployment/orca-gateway-$TAG
+          kubectl rollout restart deployment/orca-gateway -n $TAG
+          kubectl rollout status deployment/orca-gateway -n $TAG
