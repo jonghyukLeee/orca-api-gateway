@@ -6,6 +6,9 @@ spring:
     name: 'gateway'
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: false
       default-filters:
         - name: DedupeResponseHeader
           args:
