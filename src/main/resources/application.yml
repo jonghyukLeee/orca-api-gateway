@@ -1,13 +1,6 @@
 server:
   port: 8000
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://${EUREKA}:8761/eureka/
-    register-with-eureka: true
-    fetch-registry: true
-
 spring:
   application:
     name: 'gateway'
@@ -15,24 +8,19 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true
-      default-filters:
-        - name: DedupeResponseHeader
-          args:
-            name: Access-Control-Allow-Origin
-            strategy: RETAIN_FIRST
-      routes:
-        - id: auth
-          uri: lb://auth
-          predicates:
-            - Path=/auth/**
+          enabled: false
 
-        - id: member
-          uri: lb://member
-          predicates:
-            - Path=/member/**
-
-        - id: match
-          uri: lb://match
-          predicates:
-            - Path=/match/**
+routes:
+  services:
+    - id: "auth"
+      uri: "http://orca-auth:8010"
+      path: "/auth/**"
+      authRequired: false
+    - id: "member"
+      uri: "http://orca-member:8020"
+      path: "/member/**"
+      authRequired: true
+    - id: "match"
+      uri: "http://orca-match:8030"
+      path: "/match/**"
+      authRequired: true
