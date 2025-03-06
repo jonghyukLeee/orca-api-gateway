@@ -1,21 +1,17 @@
 package com.orca.gateway.exception
 
-import org.springframework.http.HttpStatus
+import com.orca.gateway.util.getCurrentTimestamp
 
 class ErrorResponse(
-    val status: HttpStatus,
-    val message: String
+    val serviceName: String,
+    val code: String,
+    val message: String,
+    val timestamp: String
 ) {
-    constructor(e: AuthError): this(
-        status = e.httpStatus!!,
-        message = e.message
+    constructor(e: AuthError) : this(
+        serviceName = "gateway",
+        code = e.name,
+        message = e.message,
+        timestamp = getCurrentTimestamp(),
     )
-    companion object {
-        fun default(): ErrorResponse {
-            return ErrorResponse(
-                status = HttpStatus.INTERNAL_SERVER_ERROR,
-                message = "UNDEFINED EXCEPTION",
-            )
-        }
-    }
 }
