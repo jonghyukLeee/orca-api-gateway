@@ -1,22 +1,24 @@
 package com.orca.gateway.external
 
+import com.orca.gateway.exception.ErrorResponse
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import org.springframework.web.reactive.function.client.WebClient
+import reactor.core.publisher.Mono
 
 @Service
 class AuthService(
-    private val webClient: WebClient
+    clientFactory: WebClientFactory
 ) {
-
-    private val baseUrl = "http://orca-auth:8010/auth"
-    suspend fun verifyToken(token: String) {
-        webClient.get()
-            .uri {
-                it.path("${baseUrl}/token")
-                    .queryParam("token", token)
-                    .build()
-            }.retrieve()
-            .toBodilessEntity()
-            .subscribe()
+    val client = clientFactory.getClient("auth")
+    fun verifyToken(token: String): Mono<ResponseEntity<ErrorResponse?>> {
+        return client.get()
+            .uri("/token")
+            .exchangeToMono { response ->
+                if (response.statusCode().is2xxSuccessful) {
+                    Mono.empty()
+                } else {
+                    response.toEntity(ErrorResponse::class.java)
+                }
+            }
     }
 }
