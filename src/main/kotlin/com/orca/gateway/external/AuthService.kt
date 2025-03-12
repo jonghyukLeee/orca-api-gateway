@@ -12,7 +12,11 @@ class AuthService(
     val client = clientFactory.getClient("auth")
     fun verifyToken(token: String): Mono<ResponseEntity<ErrorResponse?>> {
         return client.get()
-            .uri("/token")
+            .uri {
+                it.path("/token")
+                    .queryParam("token", token)
+                    .build()
+            }
             .exchangeToMono { response ->
                 if (response.statusCode().is2xxSuccessful) {
                     Mono.empty()
