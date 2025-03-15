@@ -17,8 +17,8 @@ routes:
       path: "/auth/**"
       authRequired: false
     - id: "member"
-      uri: "http://orca-member:8020"
-      path: "/member/**"
+      uri: "http://orca-player:8020"
+      path: "/player/**"
       authRequired: true
     - id: "match"
       uri: "http://orca-match:8030"
