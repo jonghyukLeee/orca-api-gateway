@@ -8,6 +8,6 @@ import org.springframework.boot.runApplication
 @SpringBootApplication
 class GatewayApplication
 
-suspend fun main(args: Array<String>) {
+fun main(args: Array<String>) {
 	runApplication<GatewayApplication>(*args)
 }

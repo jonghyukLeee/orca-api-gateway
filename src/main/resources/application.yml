@@ -17,10 +17,22 @@ routes:
       path: "/auth/**"
       authRequired: false
     - id: "member"
-      uri: "http://orca-member:8020"
-      path: "/member/**"
+      uri: "http://orca-player:8020"
+      path: "/player/**"
       authRequired: true
     - id: "match"
       uri: "http://orca-match:8030"
       path: "/match/**"
       authRequired: true
+
+external:
+  services:
+    auth:
+      host: orca-auth
+      port: 8010
+    player:
+      host: orca-player
+      port: 8020
+    match:
+      host: orca-match
+      port: 8030
