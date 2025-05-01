@@ -39,3 +39,4 @@ bin/
 # etc
 *.checksums.*
 /src/main/resources/application-local.yml
+/Dockerfile.local
